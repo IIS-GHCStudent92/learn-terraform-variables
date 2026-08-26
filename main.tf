@@ -126,8 +126,14 @@ module "ec2_instances" {
   }
 }
 
+resource "random_string" "s3_bucket_suffix" {
+  length  = 8
+  upper   = false
+  special = false
+}
+
 module "s3_bucket" {
   source  = "app.terraform.io/policy-as-code-training/s3-bucket-kac/aws"
   version = "1.0.0"
-  bucket_name = "my-bucket"
+  bucket_name = "my-bucket-${random_string.s3_bucket_suffix.result}"
 }
